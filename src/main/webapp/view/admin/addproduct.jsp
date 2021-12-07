@@ -11,7 +11,7 @@
                     <div class="card-body">
                         <div class="card-title">Thêm sản phẩm</div>
                         <hr>
-                        <form method="post" action="${pageContext.request.contextPath}/admin/product/add">
+                        <form id='form-product' method="post" action="${pageContext.request.contextPath}/admin/product/add">
                             <div class="form-group">
                                 <label for="input-1">Tên sản phẩm</label>
                                 <input type="text" class="form-control" id="input-1" placeholder="Tên sản phẩm"
@@ -74,9 +74,8 @@
                             </div>
                             <div class="form-group">
                                 <label for="input-1">Ảnh sản phẩm</label>
-<%--                                <input type="text" class="form-control" id="input-1" placeholder="Tên hình"--%>
-<%--                                       name="product-image">--%>
-                                <input type="file" id="product-image">
+                                <input type="file" id="product-image-input">
+                                <input type="text" id="product-image-name" name="product-image" hidden="true">
                             </div>
                             <div class="form-footer">
                                 <button class="btn btn-danger"><i class="fa fa-times"></i><a
@@ -103,17 +102,27 @@
     document.getElementById('the-date').value = today;
 
     function requestUploadURL(){
-        let data = {
-            path: "/products"
-        };
         $.ajax({
-            url: '/upload-image?file-name=123.jpg',
+            url: '/upload-image?path=products',
             type: 'post',
             contentType: 'application/json',
-            data: JSON.stringify(data),
             dataType: 'json'
-        }).then(data => console.log(data))
+        }).then(data => uploadImage(data))
     }
-
+    function uploadImage(data){
+        let fileName = data.fileName;
+        const file = document.querySelector('#product-image-input').files[0];
+        let blob = new Blob([file], {type: 'image/png'})
+        $.ajax({
+            url: data.url,
+            type: 'PUT',
+            data: file,
+            processData: false,
+            contentType: false,
+        }).then(data => {
+            document.getElementById('product-image-name').value = fileName;
+            $('#form-product').submit();
+        })
+    }
 </script>
 <jsp:include page="./footer/footer.jsp" flush="true"/>

@@ -63,10 +63,25 @@ public class FirebaseStorageStrategyImpl implements IStorageStrategy {
     @Override
     public FileDTO generateSignedUrl(String path) {
         FileDTO fileDTO = new FileDTO();
-        fileDTO.setFileName(path + "/" + RandomStringUtils.randomAlphanumeric(20) + "png");
+        fileDTO.setFileName(path + "/" + RandomStringUtils.randomAlphanumeric(20) + ".png");
         BlobInfo blobInfo = BlobInfo.newBuilder(bucket.getName(), fileDTO.getFileName()).setContentType("image/png").build();
         storage.create(blobInfo);
-        URL url = storage.signUrl(blobInfo, 10, TimeUnit.MINUTES,
+        URL url = storage.signUrl(blobInfo, 1, TimeUnit.MINUTES,
+                Storage.SignUrlOption.withV4Signature(),
+                Storage.SignUrlOption.httpMethod(HttpMethod.PUT));
+        storage.createAcl(blobInfo.getBlobId(), Acl.of(Acl.User.ofAllUsers(), Acl.Role.READER));
+        fileDTO.setUrl(url.toString());
+        return fileDTO;
+    }
+
+    @Override
+    public FileDTO generateSignedUrlUpdate(String filename) {
+        filename = replacePreSuf(filename);
+        FileDTO fileDTO = new FileDTO();
+        fileDTO.setFileName(filename);
+        BlobId blobId = BlobId.of(bucket.getName(), filename);
+        BlobInfo blobInfo = BlobInfo.newBuilder(blobId).build();
+        URL url = storage.signUrl(blobInfo, 1, TimeUnit.MINUTES,
                 Storage.SignUrlOption.withV4Signature(),
                 Storage.SignUrlOption.httpMethod(HttpMethod.PUT));
         storage.createAcl(blobInfo.getBlobId(), Acl.of(Acl.User.ofAllUsers(), Acl.Role.READER));
@@ -76,6 +91,7 @@ public class FirebaseStorageStrategyImpl implements IStorageStrategy {
 
     @Override
     public Boolean deleteImage(String filename) {
+        filename = replacePreSuf(filename);
         try {
             BlobId blobId = BlobId.of(bucket.getName(), filename);
             storage.delete(blobId);
@@ -84,5 +100,12 @@ public class FirebaseStorageStrategyImpl implements IStorageStrategy {
             e.printStackTrace();
         }
         return false;
+    }
+
+    private String replacePreSuf(String filename) {
+        filename = filename.replace(System.getenv("FIREBASE_IMAGE_PREFIX"), "");
+        filename = filename.replace("?alt=media", "");
+        filename = filename.replace("%2F", "/");
+        return filename;
     }
 }

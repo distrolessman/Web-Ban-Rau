@@ -29,10 +29,18 @@ public class Product implements Serializable {
     private String image_link;
     private Date created;
     private Integer discount;
-    @OneToMany(fetch = FetchType.LAZY,mappedBy = "product", cascade = CascadeType.ALL)
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "product", cascade = CascadeType.ALL)
     private List<Review> reviews;
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "product")
     List<Ordered> ordereds;
+
+    public String getImage_link() {
+        return System.getenv("FIREBASE_IMAGE_PREFIX") + this.image_link + "?alt=media";
+    }
+
+    public void setImage_link(String image_link) {
+        this.image_link = image_link.replace("/", "%2F");
+    }
 
     @Override
     public String toString() {

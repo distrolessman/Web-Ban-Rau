@@ -22,8 +22,18 @@
   <link href="${url}/css/icons.css" rel="stylesheet" type="text/css" />
   <link href="${url}/css/sidebar-menu.css" rel="stylesheet" />
   <link href="${url}/css/app-style.css" rel="stylesheet" />
-  
 
+
+  <script src="${url}/js/jquery.min.js"></script>
+  <script src="${url}/js/popper.min.js"></script>
+  <script src="${url}/js/bootstrap.js"></script>
+  <script src="${url}/plugins/simplebar/js/simplebar.js"></script>
+  <script src="${url}/js/sidebar-menu.js"></script>
+  <%--  <script src="${url}/js/jquery.loading-indicator.js"></script>--%>
+  <script src="${url}/js/app-script.js"></script>
+  <script src="${url}/plugins/Chart.js/Chart.min.js"></script>
+  <script src="${url}/js/index.js"></script>
+  <script src="${url}/plugins/summernote/dist/summernote-bs4.min.js"></script>
 </head>
 
 <body class="bg-theme bg-theme1">

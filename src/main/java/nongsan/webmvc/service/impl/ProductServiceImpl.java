@@ -13,6 +13,7 @@ import nongsan.webmvc.dao.impl.ProductDAOImpl;
 import nongsan.webmvc.model.Catalog;
 import nongsan.webmvc.model.Product;
 import nongsan.webmvc.service.IProductService;
+import nongsan.webmvc.service.IStorageStrategy;
 
 import javax.inject.Inject;
 
@@ -21,6 +22,8 @@ public class ProductServiceImpl implements IProductService {
     IProductDAO productDAO;
     @Inject
     ICategoryDAO categoryDAO;
+    @Inject
+    IStorageStrategy storageStrategy;
     @Override
     public Boolean createProduct(String productCategory, String productName, String productPrice,
                                  String productStatus, String productDescription, String productContent,
@@ -72,7 +75,10 @@ public class ProductServiceImpl implements IProductService {
     @Override
     public Boolean deleteProduct(String id) {
         try {
-            return productDAO.deleteProduct(Integer.parseInt(id));
+            Integer productId = Integer.parseInt(id);
+            Product product = productDAO.findProductById(productId);
+            storageStrategy.deleteImage(product.getImage_link());
+            return productDAO.deleteProduct(productId);
         } catch (Exception e) {
             e.printStackTrace();
         }
