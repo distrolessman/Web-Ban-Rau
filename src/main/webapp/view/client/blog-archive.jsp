@@ -42,7 +42,7 @@
                                                 </h4>
                                                 <figure class="aa-blog-img">
                                                     <a href="${pageContext.request.contextPath}/view/client/news-list-detail?id=${boardnew.id}"><img
-                                                            src="${pageContext.request.contextPath}/view/client/assets/images/news/${boardnew.image_link}"
+                                                            src="${boardnew.image_link}"
                                                             alt="farm products" height="180px" width="300px"></a>
                                                 </figure>
                                                 <p class="desc-boardnews">${boardnew.content}</p>

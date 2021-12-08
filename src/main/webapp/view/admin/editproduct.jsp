@@ -110,7 +110,7 @@
         }
     }
 
-    $("#image-input").change(function () {
+    $("#product-image-input").change(function () {
         readURL(this);
     });
 

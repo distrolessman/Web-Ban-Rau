@@ -41,7 +41,7 @@
                                         <td>${boardnew.title}</td>
                                         <td><img
                                                 style="width: 110px;height: 67px; object-fit: cover;border: 1px solid #fff;"
-                                                src="${pageContext.request.contextPath}/view/client/assets/images/news/${boardnew.image_link}">
+                                                src="${boardnew.image_link}">
                                         </td>
                                         <td>${boardnew.author}</td>
                                         <td>${boardnew.created}</td>

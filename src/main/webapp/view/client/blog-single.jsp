@@ -43,7 +43,7 @@
                                     </div>
                                     <figure class="aa-blog-img">
                                         <a href="#"><img
-                                                src="${pageContext.request.contextPath}/view/client/assets/images/news/${boardnew.image_link}"
+                                                src="${boardnew.image_link}"
                                                 alt="fashion img"></a>
                                     </figure>
                                     <p>${boardnew.content}</p>
@@ -63,7 +63,7 @@
                                                 <li>
                                                     <a class="aa-cartbox-img"
                                                        href="${pageContext.request.contextPath}/view/client/news-list-detail?id=${boardnew.id}"><img
-                                                            src="${pageContext.request.contextPath}/view/client/assets/images/news/${boardnew.image_link}"
+                                                            src="${boardnew.image_link}"
                                                             alt="img bài viết"></a>
                                                     <div class="aa-cartbox-info">
                                                         <h4>

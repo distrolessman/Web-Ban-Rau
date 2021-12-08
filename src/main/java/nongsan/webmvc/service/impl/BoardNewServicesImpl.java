@@ -10,12 +10,15 @@ import nongsan.webmvc.dao.IBoardNewDAO;
 import nongsan.webmvc.dao.impl.BoardNewDAOImpl;
 import nongsan.webmvc.model.BoardNew;
 import nongsan.webmvc.service.IBoardNewService;
+import nongsan.webmvc.service.IStorageStrategy;
 
 import javax.inject.Inject;
 
 public class BoardNewServicesImpl implements IBoardNewService {
 	@Inject
 	IBoardNewDAO boardNewDao;
+	@Inject
+	IStorageStrategy storageStrategy;
 
 	@Override
 	public Boolean createBoardNew(String title, String content, String imageLink, String author, String created) {
@@ -56,7 +59,10 @@ public class BoardNewServicesImpl implements IBoardNewService {
 	@Override
 	public Boolean deleteBoardNew(String id) {
 		try {
-			return boardNewDao.deleteBoardNew(Integer.parseInt(id));
+			Integer boardNewId = Integer.parseInt(id);
+			BoardNew boardNew = boardNewDao.findBoardNewById(boardNewId);
+			storageStrategy.deleteImage(boardNew.getImage_link());
+			return boardNewDao.deleteBoardNew(boardNewId);
 		}
 		catch (Exception e){
 			e.printStackTrace();

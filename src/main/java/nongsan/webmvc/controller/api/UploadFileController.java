@@ -3,6 +3,7 @@ package nongsan.webmvc.controller.api;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import nongsan.webmvc.dto.FileDTO;
 import nongsan.webmvc.model.Product;
+import nongsan.webmvc.service.IBoardNewService;
 import nongsan.webmvc.service.IProductService;
 import nongsan.webmvc.service.IStorageStrategy;
 
@@ -21,6 +22,8 @@ public class UploadFileController extends HttpServlet {
     IStorageStrategy storageStrategy;
     @Inject
     IProductService productService;
+    @Inject
+    IBoardNewService boardNewService;
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -41,9 +44,21 @@ public class UploadFileController extends HttpServlet {
             }
             return;
         } else {
+            String imgLink = "";
+            switch (path) {
+                case "products":
+                    imgLink = productService.findProductById(id).getImage_link();
+                    break;
+                case "boardnews":
+                    imgLink = boardNewService.findBoardNewById(id).getImage_link();
+                    break;
+                default:
+                    imgLink = null;
+                    objectMapper.writeValue(resp.getOutputStream(), imgLink);
+                    break;
+            }
             try {
-                Product product = productService.findProductById(id);
-                fileDTO = storageStrategy.generateSignedUrlUpdate(product.getImage_link());
+                fileDTO = storageStrategy.generateSignedUrlUpdate(imgLink);
                 objectMapper.writeValue(resp.getOutputStream(), fileDTO);
             } catch (Exception e) {
                 objectMapper.writeValue(resp.getOutputStream(), e);

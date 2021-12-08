@@ -23,6 +23,14 @@ public class BoardNew implements Serializable {
     private String author;
     private Date created;
 
+    public String getImage_link() {
+        return System.getenv("FIREBASE_IMAGE_PREFIX") + this.image_link + "?alt=media";
+    }
+
+    public void setImage_link(String image_link) {
+        this.image_link = image_link.replace("/", "%2F");
+    }
+
     @Override
     public String toString() {
         return "BoardNew [id=" + id + ", title=" + title + ", content=" + content + ", image_link=" + image_link
