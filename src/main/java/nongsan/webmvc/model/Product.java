@@ -41,7 +41,7 @@ public class Product implements Serializable {
     public void setImage_link(String image_link) {
         this.image_link = image_link.replace("/", "%2F");
     }
-
+    //path/product.png
     @Override
     public String toString() {
         return "Product [id=" + id + ", catalog_id=" + catalog.getId() + ", name=" + name + ", price=" + price + ", status="

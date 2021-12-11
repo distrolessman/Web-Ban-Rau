@@ -35,10 +35,6 @@ public class ProductListClientController extends HttpServlet {
         List<Product> listProducts = productService.findAllProduct();
         req.setAttribute("listProducts", listProducts);
 
-        // Product bán chạy
-        List<Product> product_banchay = listProducts.stream().filter(p -> p.getCatalog().getId() == 6).collect(Collectors.toList());
-        req.setAttribute("product_banchay", product_banchay);
-
         RequestDispatcher dispatcher = req.getRequestDispatcher("/view/client/product.jsp");
         dispatcher.forward(req, resp);
     }

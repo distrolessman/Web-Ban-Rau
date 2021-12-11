@@ -84,7 +84,7 @@
                                 <img src="${product.image_link}" alt="farm products" height="240px" width="470px"
                                      id="product-image-present">
                                 <input type="file" id="product-image-input">
-                                <input type="text" id="product-image-name" name="product-image" hidden="true">
+                                <input type="text" id="product-image-name" value="${product.image_link}" name="product-image" hidden="true">
                             </div>
                             <div class="form-footer">
                                 <button class="btn btn-danger"><a
@@ -116,6 +116,14 @@
 
     function requestUploadURL(){
         var productId = document.getElementById('product-sku').value;
+        const file = document.querySelector('#product-image-input').files[0];
+        var link = document.getElementById('product-image-name').value.replace('https://firebasestorage.googleapis.com/v0/b/vegetables-shop-2c68e.appspot.com/o/', '')
+            .replace('?alt=media', '')
+        if(!file){
+            document.getElementById('product-image-name').value = link
+            $('#form-product').submit();
+            return;
+        }
         $.ajax({
             url: `/upload-image?path=products&id=\${productId}`,
             type: 'post',
