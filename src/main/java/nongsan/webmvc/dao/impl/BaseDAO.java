@@ -83,6 +83,8 @@ public class BaseDAO<T> implements IBaseDAO<T> {
             session.delete(object);
             transaction.commit();
         } catch (Exception e) {
+            if (transaction != null)
+                transaction.rollback();
             e.printStackTrace();
             return false;
         } finally {

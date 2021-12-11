@@ -176,12 +176,10 @@
                                                         class="aa-product-price"></span>
                                                 </c:when>
                                                 <c:otherwise>
-                                                    <c:forEach items="${productlist1}" var="product1">
-                                                        <c:if test="${product1.id == product.id}">
-                                                            <span class="aa-product-price">${product1.price} VNĐ</span>
-                                                            <span class="aa-product-price"><fmt:formatNumber value="${product.price}" type="number"/> VNĐ</span>
-                                                        </c:if>
-                                                    </c:forEach>
+                                                    <c:set var="discountPrice"
+                                                           value="${product.price * (1.0 - product.discount/100.0)}"></c:set>
+                                                    <span class="aa-product-price"><fmt:formatNumber value="${discountPrice}" type="number"/> VNĐ</span>
+                                                    <span class="aa-product-price"><del><fmt:formatNumber value="${product.price}" type="number"/> VNĐ</del></span>
                                                 </c:otherwise>
                                             </c:choose>
                                         </figcaption>

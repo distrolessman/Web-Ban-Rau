@@ -23,7 +23,7 @@
                                     <select class="form-control valid" id="input-6" name="product-cate"
                                             aria-invalid="false">
                                         <c:forEach items="${catelist}" var="cate">
-                                            <option value="${cate.id }">${cate.name }</option>
+                                            <option value="${ cate.id }">${cate.name }</option>
                                         </c:forEach>
                                     </select>
                                 </div>
